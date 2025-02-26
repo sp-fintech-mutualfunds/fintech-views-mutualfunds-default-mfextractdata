@@ -68,15 +68,38 @@
                 'componentName'                  : componentName,
                 'componentId'                    : componentId,
                 'sectionId'                      : sectionId,
-                'fieldId'                        : 'mf',
-                'fieldLabel'                     : 'Download and extract all MF NAV Data',
+                'fieldId'                        : 'redownload',
+                'fieldLabel'                     : 'Re-download and extract all MF NAV Data',
                 'fieldType'                      : 'checkbox',
                 'fieldHelp'                      : true,
-                'fieldHelpTooltipContent'        : 'Download and extract all MF Data from github repository.',
+                'fieldHelpTooltipContent'        : 'Re-Download and extract all MF Data from github repository for the same date.',
                 'fieldRequired'                  : false,
                 'fieldDisabled'                  : false,
-                'fieldCheckboxType'              : 'primary',
-                'fieldCheckboxChecked'           : true,
+                'fieldCheckboxType'              : 'warning',
+                'fieldCheckboxChecked'           : false,
+                'fieldBazPostOnCreate'           : true,
+                'fieldBazPostOnUpdate'           : true,
+                'fieldBazJstreeSearch'           : true,
+                'fieldBazScan'                   : true
+            ]
+        )}}
+    </div>
+    <div class="col">
+        {{adminltetags.useTag('fields',
+            [
+                'component'                      : component,
+                'componentName'                  : componentName,
+                'componentId'                    : componentId,
+                'sectionId'                      : sectionId,
+                'fieldId'                        : 'reset',
+                'fieldLabel'                     : 'MF NAV Database',
+                'fieldType'                      : 'checkbox',
+                'fieldHelp'                      : true,
+                'fieldHelpTooltipContent'        : 'Reset nav database.',
+                'fieldRequired'                  : false,
+                'fieldDisabled'                  : false,
+                'fieldCheckboxType'              : 'danger',
+                'fieldCheckboxChecked'           : false,
                 'fieldBazPostOnCreate'           : true,
                 'fieldBazPostOnUpdate'           : true,
                 'fieldBazJstreeSearch'           : true,
@@ -272,7 +295,7 @@ dataCollectionSection =
                 });
             }
         },
-        '{{componentId}}-{{sectionId}}-mf'                                       : {
+        '{{componentId}}-{{sectionId}}-redownload'                               : {
             afterInit : function() {
                 BazProgress.buildProgressBar($('#download-progress'), false, false, true);
 
@@ -285,7 +308,8 @@ dataCollectionSection =
                     var postData = { };
 
                     postData[$('#security-token').attr('name')] = $('#security-token').val();
-                    postData['mf'] = $('#{{componentId}}-{{sectionId}}-mf')[0].checked;
+                    postData['redownload'] = $('#{{componentId}}-{{sectionId}}-redownload')[0].checked;
+                    postData['reset'] = $('#{{componentId}}-{{sectionId}}-reset')[0].checked;
 
                     $.post(url, postData, function(response) {
                         if (response.responseCode == 0) {
@@ -309,6 +333,7 @@ dataCollectionSection =
                 });
             }
         },
+        '{{componentId}}-{{sectionId}}-reset'                                    : { },
         '{{componentId}}-{{sectionId}}-form'                                     : {
             rules: {
             },
