@@ -33,8 +33,8 @@
                 'buttonType'            : 'button',
                 'buttons'               :
                     [
-                        'sync-categories' : [
-                            'title'                   : 'Sync Categories',
+                        'sync-scheme-categories' : [
+                            'title'                   : 'Sync Scheme Categories',
                             'size'                    : 'sm',
                             'icon'                    : 'cog fa-spin',
                             'iconHidden'              : true,
@@ -92,7 +92,7 @@
                 'componentId'                    : componentId,
                 'sectionId'                      : sectionId,
                 'fieldId'                        : 'reset',
-                'fieldLabel'                     : 'MF NAV Database',
+                'fieldLabel'                     : 'Reset MF NAV Database',
                 'fieldType'                      : 'checkbox',
                 'fieldHelp'                      : true,
                 'fieldHelpTooltipContent'        : 'Reset nav database.',
@@ -216,8 +216,8 @@ function sync(thisButton, id = null) {
         postData['sync'] = 'amcs';
     } else if (thisButton[0].id === '{{componentId}}-{{sectionId}}-sync-gold') {
         postData['sync'] = 'gold';
-    } else if (thisButton[0].id === '{{componentId}}-{{sectionId}}-sync-categories') {
-        postData['sync'] = 'categories';
+    } else if (thisButton[0].id === '{{componentId}}-{{sectionId}}-sync-scheme-categories') {
+        postData['sync'] = 'schemeCategories';
     }
     if (id) {
         postData['api_id'] = id;
@@ -237,7 +237,7 @@ function sync(thisButton, id = null) {
         $('#{{componentId}}-{{sectionId}}-sync-schemes,' +
           '#{{componentId}}-{{sectionId}}-sync-amcs,' +
           '#{{componentId}}-{{sectionId}}-sync-gold,' +
-          '#{{componentId}}-{{sectionId}}-sync-categories').attr('disabled', false);
+          '#{{componentId}}-{{sectionId}}-sync-scheme-categories').attr('disabled', false);
         thisButton.children().attr('hidden', true);
 
         if (response.tokenKey && response.token) {
@@ -260,20 +260,20 @@ dataCollectionSection =
                     if (id != 0) {
                         $('#{{componentId}}-{{sectionId}}-sync-schemes,' +
                           '#{{componentId}}-{{sectionId}}-sync-amcs,' +
-                          '#{{componentId}}-{{sectionId}}-sync-categories').attr('disabled', false);
+                          '#{{componentId}}-{{sectionId}}-sync-scheme-categories').attr('disabled', false);
                         $('#{{componentId}}-{{sectionId}}-sync-schemes,' +
                           '#{{componentId}}-{{sectionId}}-sync-amcs,' +
-                          '#{{componentId}}-{{sectionId}}-sync-categories').off();
+                          '#{{componentId}}-{{sectionId}}-sync-scheme-categories').off();
                         $('#{{componentId}}-{{sectionId}}-sync-schemes,' +
                           '#{{componentId}}-{{sectionId}}-sync-amcs,' +
-                          '#{{componentId}}-{{sectionId}}-sync-categories').click(function(e) {
+                          '#{{componentId}}-{{sectionId}}-sync-scheme-categories').click(function(e) {
                             e.preventDefault();
 
                             var thisButton = $(this);
                             // thisButton.children().attr('hidden', false);
                             // $('#{{componentId}}-{{sectionId}}-sync-schemes,' +
                             //   '#{{componentId}}-{{sectionId}}-sync-amcs,' +
-                            //   '#{{componentId}}-{{sectionId}}-sync-categories').attr('disabled', true);
+                            //   '#{{componentId}}-{{sectionId}}-sync-scheme-categories').attr('disabled', true);
 
                             sync(thisButton, id);
                         });
