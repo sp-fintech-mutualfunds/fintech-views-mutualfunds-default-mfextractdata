@@ -2,65 +2,26 @@
     <div class="col">
         {{adminltetags.useTag('fields',
             [
-                'component'                            : component,
-                'componentName'                        : componentName,
-                'componentId'                          : componentId,
-                'sectionId'                            : sectionId,
-                'fieldId'                              : 'api_id',
-                'fieldLabel'                           : 'Use Repo',
-                'fieldType'                            : 'select2',
-                'fieldHelp'                            : true,
-                'fieldHelpTooltipContent'              : 'Select repo to get the data from.',
-                'fieldRequired'                        : true,
-                'fieldBazScan'                         : true,
-                'fieldBazPostOnCreate'                 : false,
-                'fieldBazPostOnUpdate'                 : false,
-                'fieldDataSelect2OptionsArray'         : true,
-                'fieldDataSelect2Options'              : apis,
-                'fieldDataSelect2OptionsKey'           : 'id',
-                'fieldDataSelect2OptionsValue'         : 'name',
-                'fieldDataSelect2OptionsSelected'      : ''
+                'component'                      : component,
+                'componentName'                  : componentName,
+                'componentId'                    : componentId,
+                'sectionId'                      : sectionId,
+                'fieldId'                        : 'schemes',
+                'fieldLabel'                     : 'Schemes',
+                'fieldType'                      : 'checkbox',
+                'fieldHelp'                      : true,
+                'fieldHelpTooltipContent'        : 'Download and process schemes data from the AMFIIndia website',
+                'fieldRequired'                  : false,
+                'fieldDisabled'                  : false,
+                'fieldCheckboxType'              : 'primary',
+                'fieldCheckboxChecked'           : false,
+                'fieldBazPostOnCreate'           : true,
+                'fieldBazPostOnUpdate'           : true,
+                'fieldBazJstreeSearch'           : true,
+                'fieldBazScan'                   : true
             ]
         )}}
     </div>
-</div>
-<div class="row">
-    <div class="col">
-        {{adminltetags.useTag('buttons',
-            [
-                'componentId'           : componentId,
-                'sectionId'             : sectionId,
-                'buttonType'            : 'button',
-                'buttons'               :
-                    [
-                        'sync-scheme-categories' : [
-                            'title'                   : 'Sync Scheme Categories',
-                            'size'                    : 'sm',
-                            'icon'                    : 'cog fa-spin',
-                            'iconHidden'              : true,
-                            'disabled'                : true
-                        ],
-                        'sync-amcs' : [
-                            'title'                   : 'Sync AMCs',
-                            'size'                    : 'sm',
-                            'icon'                    : 'cog fa-spin',
-                            'iconHidden'              : true,
-                            'disabled'                : true
-                        ],
-                        'sync-schemes' : [
-                            'title'                   : 'Sync Schemes',
-                            'size'                    : 'sm',
-                            'icon'                    : 'cog fa-spin',
-                            'iconHidden'              : true,
-                            'disabled'                : true
-                        ]
-                    ]
-            ]
-        )}}
-    </div>
-</div>
-<hr>
-<div class="row">
     <div class="col">
         {{adminltetags.useTag('fields',
             [
@@ -249,38 +210,6 @@ function sync(thisButton, id = null) {
 
 dataCollectionSection =
     $.extend(dataCollectionSection, {
-        '{{componentId}}-{{sectionId}}-api_id'                                   : {
-            placeholder: "SELECT REPO",
-            afterInit: function() {
-                var id;
-
-                $('#{{componentId}}-{{sectionId}}-api_id').on('select2:select', function(e) {
-                    id = e.params.data.id;
-
-                    if (id != 0) {
-                        $('#{{componentId}}-{{sectionId}}-sync-schemes,' +
-                          '#{{componentId}}-{{sectionId}}-sync-amcs,' +
-                          '#{{componentId}}-{{sectionId}}-sync-scheme-categories').attr('disabled', false);
-                        $('#{{componentId}}-{{sectionId}}-sync-schemes,' +
-                          '#{{componentId}}-{{sectionId}}-sync-amcs,' +
-                          '#{{componentId}}-{{sectionId}}-sync-scheme-categories').off();
-                        $('#{{componentId}}-{{sectionId}}-sync-schemes,' +
-                          '#{{componentId}}-{{sectionId}}-sync-amcs,' +
-                          '#{{componentId}}-{{sectionId}}-sync-scheme-categories').click(function(e) {
-                            e.preventDefault();
-
-                            var thisButton = $(this);
-                            // thisButton.children().attr('hidden', false);
-                            // $('#{{componentId}}-{{sectionId}}-sync-schemes,' +
-                            //   '#{{componentId}}-{{sectionId}}-sync-amcs,' +
-                            //   '#{{componentId}}-{{sectionId}}-sync-scheme-categories').attr('disabled', true);
-
-                            sync(thisButton, id);
-                        });
-                    }
-                });
-            }
-        },
         '{{componentId}}-{{sectionId}}-days'                                     : {
             afterInit: function() {
                 $('#{{componentId}}-{{sectionId}}-sync-gold').off();
@@ -308,6 +237,7 @@ dataCollectionSection =
                     var postData = { };
 
                     postData[$('#security-token').attr('name')] = $('#security-token').val();
+                    postData['schemes'] = $('#{{componentId}}-{{sectionId}}-schemes')[0].checked;
                     postData['redownload'] = $('#{{componentId}}-{{sectionId}}-redownload')[0].checked;
                     postData['reset'] = $('#{{componentId}}-{{sectionId}}-reset')[0].checked;
 
@@ -334,6 +264,7 @@ dataCollectionSection =
             }
         },
         '{{componentId}}-{{sectionId}}-reset'                                    : { },
+        '{{componentId}}-{{sectionId}}-schemes'                                  : { },
         '{{componentId}}-{{sectionId}}-form'                                     : {
             rules: {
             },
