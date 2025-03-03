@@ -14,7 +14,7 @@
                 'fieldRequired'                  : false,
                 'fieldDisabled'                  : false,
                 'fieldCheckboxType'              : 'primary',
-                'fieldCheckboxChecked'           : false,
+                'fieldCheckboxChecked'           : true,
                 'fieldBazPostOnCreate'           : true,
                 'fieldBazPostOnUpdate'           : true,
                 'fieldBazJstreeSearch'           : true,
@@ -29,38 +29,15 @@
                 'componentName'                  : componentName,
                 'componentId'                    : componentId,
                 'sectionId'                      : sectionId,
-                'fieldId'                        : 'redownload',
-                'fieldLabel'                     : 'Re-download and extract all MF NAV Data',
+                'fieldId'                        : 'downloadnav',
+                'fieldLabel'                     : 'Download and extract MF NAV Data',
                 'fieldType'                      : 'checkbox',
                 'fieldHelp'                      : true,
-                'fieldHelpTooltipContent'        : 'Re-Download and extract all MF Data from github repository for the same date.',
+                'fieldHelpTooltipContent'        : 'Download and extract MF Data from github.',
                 'fieldRequired'                  : false,
                 'fieldDisabled'                  : false,
-                'fieldCheckboxType'              : 'warning',
-                'fieldCheckboxChecked'           : false,
-                'fieldBazPostOnCreate'           : true,
-                'fieldBazPostOnUpdate'           : true,
-                'fieldBazJstreeSearch'           : true,
-                'fieldBazScan'                   : true
-            ]
-        )}}
-    </div>
-    <div class="col">
-        {{adminltetags.useTag('fields',
-            [
-                'component'                      : component,
-                'componentName'                  : componentName,
-                'componentId'                    : componentId,
-                'sectionId'                      : sectionId,
-                'fieldId'                        : 'reset',
-                'fieldLabel'                     : 'Reset MF NAV Database',
-                'fieldType'                      : 'checkbox',
-                'fieldHelp'                      : true,
-                'fieldHelpTooltipContent'        : 'Reset nav database.',
-                'fieldRequired'                  : false,
-                'fieldDisabled'                  : false,
-                'fieldCheckboxType'              : 'danger',
-                'fieldCheckboxChecked'           : false,
+                'fieldCheckboxType'              : 'primary',
+                'fieldCheckboxChecked'           : true,
                 'fieldBazPostOnCreate'           : true,
                 'fieldBazPostOnUpdate'           : true,
                 'fieldBazJstreeSearch'           : true,
@@ -171,15 +148,15 @@ function sync(thisButton, id = null) {
     var postData = { };
 
     postData[$('#security-token').attr('name')] = $('#security-token').val();
-    if (thisButton[0].id === '{{componentId}}-{{sectionId}}-sync-schemes') {
-        postData['sync'] = 'schemes';
-    } else if (thisButton[0].id === '{{componentId}}-{{sectionId}}-sync-amcs') {
-        postData['sync'] = 'amcs';
-    } else if (thisButton[0].id === '{{componentId}}-{{sectionId}}-sync-gold') {
+    // if (thisButton[0].id === '{{componentId}}-{{sectionId}}-sync-schemes') {
+    //     postData['sync'] = 'schemes';
+    // } else if (thisButton[0].id === '{{componentId}}-{{sectionId}}-sync-amcs') {
+    //     postData['sync'] = 'amcs';
+    // } else if (thisButton[0].id === '{{componentId}}-{{sectionId}}-sync-gold') {
         postData['sync'] = 'gold';
-    } else if (thisButton[0].id === '{{componentId}}-{{sectionId}}-sync-scheme-categories') {
-        postData['sync'] = 'schemeCategories';
-    }
+    // } else if (thisButton[0].id === '{{componentId}}-{{sectionId}}-sync-scheme-categories') {
+    //     postData['sync'] = 'schemeCategories';
+    // }
     if (id) {
         postData['api_id'] = id;
     }
@@ -195,10 +172,11 @@ function sync(thisButton, id = null) {
             });
         }
 
-        $('#{{componentId}}-{{sectionId}}-sync-schemes,' +
-          '#{{componentId}}-{{sectionId}}-sync-amcs,' +
-          '#{{componentId}}-{{sectionId}}-sync-gold,' +
-          '#{{componentId}}-{{sectionId}}-sync-scheme-categories').attr('disabled', false);
+        $('#{{componentId}}-{{sectionId}}-sync-gold,'
+          // '#{{componentId}}-{{sectionId}}-sync-schemes,' +
+          // '#{{componentId}}-{{sectionId}}-sync-amcs,' +
+          // '#{{componentId}}-{{sectionId}}-sync-scheme-categories'
+          ).attr('disabled', false);
         thisButton.children().attr('hidden', true);
 
         if (response.tokenKey && response.token) {
@@ -210,21 +188,8 @@ function sync(thisButton, id = null) {
 
 dataCollectionSection =
     $.extend(dataCollectionSection, {
-        '{{componentId}}-{{sectionId}}-days'                                     : {
-            afterInit: function() {
-                $('#{{componentId}}-{{sectionId}}-sync-gold').off();
-                $('#{{componentId}}-{{sectionId}}-sync-gold').click(function(e) {
-                    e.preventDefault();
-
-                        var thisButton = $(this);
-                        // thisButton.children().attr('hidden', false);
-                        // $('#{{componentId}}-{{sectionId}}-sync-gold').attr('disabled', true);
-
-                        sync(thisButton);
-                });
-            }
-        },
-        '{{componentId}}-{{sectionId}}-redownload'                               : {
+        '{{componentId}}-{{sectionId}}-schemes'                                  : { },
+        '{{componentId}}-{{sectionId}}-downloadnav'                              : {
             afterInit : function() {
                 BazProgress.buildProgressBar($('#download-progress'), false, false, true);
 
@@ -238,8 +203,7 @@ dataCollectionSection =
 
                     postData[$('#security-token').attr('name')] = $('#security-token').val();
                     postData['schemes'] = $('#{{componentId}}-{{sectionId}}-schemes')[0].checked;
-                    postData['redownload'] = $('#{{componentId}}-{{sectionId}}-redownload')[0].checked;
-                    postData['reset'] = $('#{{componentId}}-{{sectionId}}-reset')[0].checked;
+                    postData['downloadnav'] = $('#{{componentId}}-{{sectionId}}-downloadnav')[0].checked;
 
                     $.post(url, postData, function(response) {
                         if (response.responseCode == 0) {
@@ -263,8 +227,20 @@ dataCollectionSection =
                 });
             }
         },
-        '{{componentId}}-{{sectionId}}-reset'                                    : { },
-        '{{componentId}}-{{sectionId}}-schemes'                                  : { },
+        '{{componentId}}-{{sectionId}}-days'                                     : {
+            afterInit: function() {
+                $('#{{componentId}}-{{sectionId}}-sync-gold').off();
+                $('#{{componentId}}-{{sectionId}}-sync-gold').click(function(e) {
+                    e.preventDefault();
+
+                        var thisButton = $(this);
+                        // thisButton.children().attr('hidden', false);
+                        // $('#{{componentId}}-{{sectionId}}-sync-gold').attr('disabled', true);
+
+                        sync(thisButton);
+                });
+            }
+        },
         '{{componentId}}-{{sectionId}}-form'                                     : {
             rules: {
             },
