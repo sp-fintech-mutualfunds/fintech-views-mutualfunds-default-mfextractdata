@@ -19,7 +19,7 @@
                             'componentId'                          : componentId,
                             'sectionId'                            : sectionId,
                             'fieldId'                              : 'api_clients',
-                            'fieldLabel'                           : 'Remote Repo to use?',
+                            'fieldLabel'                           : 'Remote API to use?',
                             'fieldType'                            : 'select2',
                             'fieldHelp'                            : true,
                             'fieldHelpTooltipContent'              : 'Select repos that you want to enable for Devtool Modules.',
@@ -32,31 +32,6 @@
                             'fieldDataSelect2OptionsKey'           : 'id',
                             'fieldDataSelect2OptionsValue'         : 'name',
                             'fieldDataSelect2OptionsSelected'      : apiClientsInUse
-                        ]
-                    )}}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    {{adminltetags.useTag('fields',
-                        [
-                            'component'                            : component,
-                            'componentName'                        : componentName,
-                            'componentId'                          : componentId,
-                            'sectionId'                            : sectionId,
-                            'fieldId'                              : 'reset_last_sync_at',
-                            'fieldLabel'                           : 'Reset Last Sync At for Repo',
-                            'fieldType'                            : 'select2',
-                            'fieldHelp'                            : true,
-                            'fieldHelpTooltipContent'              : 'Everytime sync happens, we record the time in queues. Select repos to reset the last sync time in case there is a sync issue.',
-                            'fieldBazScan'                         : true,
-                            'fieldBazPostOnCreate'                 : true,
-                            'fieldBazPostOnUpdate'                 : true,
-                            'fieldDataSelect2OptionsArray'         : true,
-                            'fieldDataSelect2Options'              : apis,
-                            'fieldDataSelect2OptionsKey'           : 'id',
-                            'fieldDataSelect2OptionsValue'         : 'name',
-                            'fieldDataSelect2OptionsSelected'      : ''
                         ]
                     )}}
                 </div>
