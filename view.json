@@ -1,77 +1,77 @@
 {
-	"name" : "MfExtractdata",
-	"display_name" : "Mutual Fund Extract Data View",
-	"description" : "<p>Mutual Fund Extract Data View</p>",
-	"module_type" : "views",
-	"app_type" : "fintech",
-	"category" : "mutualfunds",
-	"version" : "0.7.0",
-	"repo" : "https://github.com/sp-fintech-mutualfunds/fintech-views-mutualfunds-default-mfextractdata",
-	"dependencies" : 
-	{
-		"core" : 
-		{
-			"name" : "Core",
-			"version" : "0.0.0-rc.9",
-			"repo" : "https://github.com/sp-framework/core"
-		},
-		"apptype" : 
-		{
-			"name" : "Fintech",
-			"version" : "0.3.0",
-			"repo" : "https://github.com/sp-fintech/fintech"
-		},
-		"packages" : [],
-		"views" : 
-		[
-			{
-				"name" : "Default",
-				"version" : "0.11.0",
-				"repo" : "https://github.com/sp-fintech/fintech-views-tools-default"
-			}
-		]
-	},
-	"is_subview" : true,
-	"settings" : 
-	{
-		"head" : 
-		{
-			"link" : 
-			{
-				"href" : 
-				{
-					"assets" : 
-					{
-						"dev" : [],
-						"prod" : []
-					}
-				}
-			},
-			"script" : 
-			{
-				"src" : 
-				{
-					"assets" : 
-					{
-						"dev" : [],
-						"prod" : []
-					}
-				}
-			}
-		},
-		"footer" : 
-		{
-			"script" : 
-			{
-				"src" : 
-				{
-					"assets" : 
-					{
-						"dev" : [],
-						"prod" : []
-					}
-				}
-			}
-		}
-	}
+    "name" : "MfExtractdata",
+    "display_name" : "Mutual Fund Extract Data View",
+    "description" : "<p>Mutual Fund Extract Data View</p>",
+    "module_type" : "views",
+    "app_type" : "fintech",
+    "category" : "mutualfunds",
+    "version" : "0.7.0",
+    "repo" : "https://github.com/sp-fintech-mutualfunds/fintech-views-mutualfunds-default-mfextractdata",
+    "dependencies" : 
+    {
+        "core" : 
+        {
+            "name" : "Core",
+            "version" : "0.0.0-rc.9",
+            "repo" : "https://github.com/sp-framework/core"
+        },
+        "apptype" : 
+        {
+            "name" : "Fintech",
+            "version" : "0.3.0",
+            "repo" : "https://github.com/sp-fintech/fintech"
+        },
+        "packages" : [],
+        "views" : 
+        [
+            {
+                "name" : "Default",
+                "version" : "0.11.0",
+                "repo" : "https://github.com/sp-fintech/fintech-views-tools-default"
+            }
+        ]
+    },
+    "is_subview" : true,
+    "settings" : 
+    {
+        "head" : 
+        {
+            "link" : 
+            {
+                "href" : 
+                {
+                    "assets" : 
+                    {
+                        "dev" : [],
+                        "prod" : []
+                    }
+                }
+            },
+            "script" : 
+            {
+                "src" : 
+                {
+                    "assets" : 
+                    {
+                        "dev" : [],
+                        "prod" : []
+                    }
+                }
+            }
+        },
+        "footer" : 
+        {
+            "script" : 
+            {
+                "src" : 
+                {
+                    "assets" : 
+                    {
+                        "dev" : [],
+                        "prod" : []
+                    }
+                }
+            }
+        }
+    }
 }

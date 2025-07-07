@@ -73,48 +73,97 @@
 <hr>
 <div class="row">
     <div class="col">
-        {{adminltetags.useTag('fields',
-            [
-                'component'                             : component,
-                'componentName'                         : componentName,
-                'componentId'                           : componentId,
-                'sectionId'                             : sectionId,
-                'fieldId'                               : 'days',
-                'fieldLabel'                            : 'Sync Gold Data (number of days)',
-                'fieldType'                             : 'input',
-                'fieldInputType'                        : 'text',
-                'fieldHelp'                             : true,
-                'fieldHelpTooltipContent'               : 'maximum number days allowed 249',
-                'fieldInputTypeTextFilter'              : 'positiveInt',
-                'fieldRequired'                         : true,
-                'fieldBazScan'                          : true,
-                'fieldBazJstreeSearch'                  : true,
-                'fieldDataInputMinNumber'               : 10,
-                'fieldDataInputMaxNumber'               : 249,
-                'fieldValue'                            : '10'
-            ]
-        )}}
-    </div>
-</div>
-<div class="row">
-    <div class="col">
-        {{adminltetags.useTag('buttons',
-            [
-                'componentId'           : componentId,
-                'sectionId'             : sectionId,
-                'buttonType'            : 'button',
-                'buttons'               :
+        <div class="row">
+            <div class="col">
+                {{adminltetags.useTag('fields',
                     [
-                        'sync-gold' : [
-                            'title'                   : 'Sync Gold',
-                            'type'                    : 'warning',
-                            'size'                    : 'sm',
-                            'icon'                    : 'cog fa-spin',
-                            'iconHidden'              : true
-                        ]
+                        'component'                             : component,
+                        'componentName'                         : componentName,
+                        'componentId'                           : componentId,
+                        'sectionId'                             : sectionId,
+                        'fieldId'                               : 'days',
+                        'fieldLabel'                            : 'Sync Gold Data (number of days)',
+                        'fieldType'                             : 'input',
+                        'fieldInputType'                        : 'text',
+                        'fieldHelp'                             : true,
+                        'fieldHelpTooltipContent'               : 'maximum number days allowed 249',
+                        'fieldInputTypeTextFilter'              : 'positiveInt',
+                        'fieldRequired'                         : true,
+                        'fieldBazScan'                          : true,
+                        'fieldBazJstreeSearch'                  : true,
+                        'fieldDataInputMinNumber'               : 10,
+                        'fieldDataInputMaxNumber'               : 249,
+                        'fieldValue'                            : '10'
                     ]
-            ]
-        )}}
+                )}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                {{adminltetags.useTag('buttons',
+                    [
+                        'componentId'           : componentId,
+                        'sectionId'             : sectionId,
+                        'buttonType'            : 'button',
+                        'buttons'               :
+                            [
+                                'sync-gold' : [
+                                    'title'                   : 'Sync Gold',
+                                    'type'                    : 'warning',
+                                    'size'                    : 'sm',
+                                    'icon'                    : 'cog fa-spin',
+                                    'iconHidden'              : true
+                                ]
+                            ]
+                    ]
+                )}}
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="row">
+            <div class="col">
+                {{adminltetags.useTag('fields',
+                    [
+                        'component'                             : component,
+                        'componentName'                         : componentName,
+                        'componentId'                           : componentId,
+                        'sectionId'                             : sectionId,
+                        'fieldId'                               : 'holiday-source',
+                        'fieldLabel'                            : 'Holiday Source',
+                        'fieldType'                             : 'input',
+                        'fieldInputType'                        : 'text',
+                        'fieldHelp'                             : true,
+                        'fieldHelpTooltipContent'               : 'source options are : cleartax or groww. If cleartax or groww only current year data will be extracted',
+                        'fieldRequired'                         : true,
+                        'fieldBazScan'                          : true,
+                        'fieldBazJstreeSearch'                  : true,
+                        'fieldValue'                            : 'cleartax'
+                    ]
+                )}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                {{adminltetags.useTag('buttons',
+                    [
+                        'componentId'           : componentId,
+                        'sectionId'             : sectionId,
+                        'buttonType'            : 'button',
+                        'buttons'               :
+                            [
+                                'sync-holidays' : [
+                                    'title'                   : 'Sync Holidays',
+                                    'type'                    : 'warning',
+                                    'size'                    : 'sm',
+                                    'icon'                    : 'cog fa-spin',
+                                    'iconHidden'              : true
+                                ]
+                            ]
+                    ]
+                )}}
+            </div>
+        </div>
     </div>
 </div>
 <script>
@@ -148,15 +197,36 @@ function sync(thisButton, id = null) {
     var postData = { };
 
     postData[$('#security-token').attr('name')] = $('#security-token').val();
-    // if (thisButton[0].id === '{{componentId}}-{{sectionId}}-sync-schemes') {
-    //     postData['sync'] = 'schemes';
-    // } else if (thisButton[0].id === '{{componentId}}-{{sectionId}}-sync-amcs') {
-    //     postData['sync'] = 'amcs';
-    // } else if (thisButton[0].id === '{{componentId}}-{{sectionId}}-sync-gold') {
+    if (thisButton[0].id === '{{componentId}}-{{sectionId}}-sync-gold') {
         postData['sync'] = 'gold';
+        postData['days'] = $('#{{componentId}}-{{sectionId}}-days').val();
+
+        if (postData['days'] === '' ||
+            postData['days'] < 10 ||
+            postData['days'] > 249
+        ) {
+            paginatedPNotify('error', {
+                'title' : 'Please provide days value between 10 and 249'
+            });
+
+            return false;
+        }
+    } else if (thisButton[0].id === '{{componentId}}-{{sectionId}}-sync-holidays') {
+        postData['sync'] = 'holidays';
+        postData['source'] = $('#{{componentId}}-{{sectionId}}-holiday-source').val();
+
+        if (postData['source'] === '' ||
+            (postData['source'] !== 'cleartax' && postData['source'] !== 'groww')
+        ) {
+            paginatedPNotify('error', {
+                'title' : 'Please provide source value as either cleartax, groww'
+            });
+
+            return false;
+        }
     // } else if (thisButton[0].id === '{{componentId}}-{{sectionId}}-sync-scheme-categories') {
     //     postData['sync'] = 'schemeCategories';
-    // }
+    }
     if (id) {
         postData['api_id'] = id;
     }
@@ -231,6 +301,20 @@ dataCollectionSection =
             afterInit: function() {
                 $('#{{componentId}}-{{sectionId}}-sync-gold').off();
                 $('#{{componentId}}-{{sectionId}}-sync-gold').click(function(e) {
+                    e.preventDefault();
+
+                        var thisButton = $(this);
+                        // thisButton.children().attr('hidden', false);
+                        // $('#{{componentId}}-{{sectionId}}-sync-gold').attr('disabled', true);
+
+                        sync(thisButton);
+                });
+            }
+        },
+        '{{componentId}}-{{sectionId}}-holiday-source'                          : {
+            afterInit: function() {
+                $('#{{componentId}}-{{sectionId}}-sync-holidays').off();
+                $('#{{componentId}}-{{sectionId}}-sync-holidays').click(function(e) {
                     e.preventDefault();
 
                         var thisButton = $(this);
