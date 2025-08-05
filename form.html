@@ -1,49 +1,102 @@
-<div class="row">
+<div class="row vdivide">
     <div class="col">
-        {{adminltetags.useTag('fields',
-            [
-                'component'                      : component,
-                'componentName'                  : componentName,
-                'componentId'                    : componentId,
-                'sectionId'                      : sectionId,
-                'fieldId'                        : 'schemes',
-                'fieldLabel'                     : 'Schemes',
-                'fieldType'                      : 'checkbox',
-                'fieldHelp'                      : true,
-                'fieldHelpTooltipContent'        : 'Download and process schemes data from the AMFIIndia website',
-                'fieldRequired'                  : false,
-                'fieldDisabled'                  : false,
-                'fieldCheckboxType'              : 'primary',
-                'fieldCheckboxChecked'           : true,
-                'fieldBazPostOnCreate'           : true,
-                'fieldBazPostOnUpdate'           : true,
-                'fieldBazJstreeSearch'           : true,
-                'fieldBazScan'                   : true
-            ]
-        )}}
+        <div class="row">
+            <div class="col">
+                {{adminltetags.useTag('fields',
+                    [
+                        'component'                      : component,
+                        'componentName'                  : componentName,
+                        'componentId'                    : componentId,
+                        'sectionId'                      : sectionId,
+                        'fieldId'                        : 'schemes',
+                        'fieldLabel'                     : 'Schemes',
+                        'fieldType'                      : 'checkbox',
+                        'fieldHelp'                      : true,
+                        'fieldHelpTooltipContent'        : 'Download and process schemes data from the AMFIIndia website',
+                        'fieldRequired'                  : false,
+                        'fieldDisabled'                  : false,
+                        'fieldCheckboxType'              : 'primary',
+                        'fieldCheckboxChecked'           : true,
+                        'fieldBazPostOnCreate'           : true,
+                        'fieldBazPostOnUpdate'           : true,
+                        'fieldBazJstreeSearch'           : true,
+                        'fieldBazScan'                   : true
+                    ]
+                )}}
+            </div>
+            <div class="col">
+                {{adminltetags.useTag('fields',
+                    [
+                        'component'                      : component,
+                        'componentName'                  : componentName,
+                        'componentId'                    : componentId,
+                        'sectionId'                      : sectionId,
+                        'fieldId'                        : 'downloadnav',
+                        'fieldLabel'                     : 'Download and extract MF NAV Data',
+                        'fieldType'                      : 'checkbox',
+                        'fieldHelp'                      : true,
+                        'fieldHelpTooltipContent'        : 'Download and extract MF Data from github.',
+                        'fieldRequired'                  : false,
+                        'fieldDisabled'                  : false,
+                        'fieldCheckboxType'              : 'primary',
+                        'fieldCheckboxChecked'           : true,
+                        'fieldBazPostOnCreate'           : true,
+                        'fieldBazPostOnUpdate'           : true,
+                        'fieldBazJstreeSearch'           : true,
+                        'fieldBazScan'                   : true
+                    ]
+                )}}
+            </div>
+        </div>
     </div>
     <div class="col">
-        {{adminltetags.useTag('fields',
-            [
-                'component'                      : component,
-                'componentName'                  : componentName,
-                'componentId'                    : componentId,
-                'sectionId'                      : sectionId,
-                'fieldId'                        : 'downloadnav',
-                'fieldLabel'                     : 'Download and extract MF NAV Data',
-                'fieldType'                      : 'checkbox',
-                'fieldHelp'                      : true,
-                'fieldHelpTooltipContent'        : 'Download and extract MF Data from github.',
-                'fieldRequired'                  : false,
-                'fieldDisabled'                  : false,
-                'fieldCheckboxType'              : 'primary',
-                'fieldCheckboxChecked'           : true,
-                'fieldBazPostOnCreate'           : true,
-                'fieldBazPostOnUpdate'           : true,
-                'fieldBazJstreeSearch'           : true,
-                'fieldBazScan'                   : true
-            ]
-        )}}
+        <div class="row">
+            <div class="col">
+                {{adminltetags.useTag('fields',
+                    [
+                        'component'                      : component,
+                        'componentName'                  : componentName,
+                        'componentId'                    : componentId,
+                        'sectionId'                      : sectionId,
+                        'fieldId'                        : 'scheme_id',
+                        'fieldLabel'                     : 'Search Scheme',
+                        'fieldType'                      : 'select2',
+                        'fieldHelp'                      : true,
+                        'fieldHelpTooltipContent'        : 'Search Scheme',
+                        'fieldBazScan'                   : true,
+                        'fieldBazPostOnCreate'           : false,
+                        'fieldBazPostOnUpdate'           : false,
+                        'fieldDataSelect2Options'        : [],
+                        'fieldDataSelect2OptionsKey'     : 'id',
+                        'fieldDataSelect2OptionsValue'   : 'name',
+                        'fieldDataSelect2OptionsArray'   : true,
+                        'fieldDataSelect2OptionsSelected': ''
+                    ]
+                )}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                {{adminltetags.useTag('buttons',
+                    [
+                        'componentId'           : componentId,
+                        'sectionId'             : sectionId,
+                        'buttonType'            : 'button',
+                        'buttons'               :
+                            [
+                                'import' : [
+                                    'title'                   : 'Import Scheme',
+                                    'position'                : 'right',
+                                    'size'                    : 'sm',
+                                    'icon'                    : 'cog fa-spin',
+                                    'iconHidden'              : true,
+                                    'disabled'                : true
+                                ]
+                            ]
+                    ]
+                )}}
+            </div>
+        </div>
     </div>
 </div>
 <div class="row">
@@ -259,6 +312,79 @@ function sync(thisButton, id = null) {
 dataCollectionSection =
     $.extend(dataCollectionSection, {
         '{{componentId}}-{{sectionId}}-schemes'                                  : { },
+        '{{componentId}}-{{sectionId}}-scheme_id'                                : {
+            placeholder: 'SEARCH ALL SCHEMES',
+            "ajax"          : {
+                url         : "{{links.url('mf/schemes/searchAllSchemes')}}",
+                dataType    : "json",
+                method      : "post",
+                data: function(params) {
+                    var query = { };
+                    query[$('#security-token').attr('name')] = $('#security-token').val();
+                    query['search'] = params.term;
+
+                    return query;
+                },
+                processResults: function(response) {
+                    if (response.responseData.schemes) {
+                        var schemesData = [];
+
+                        for (var scheme in response.responseData.schemes) {
+                            schemesData.push({
+                                "id"    : response.responseData.schemes[scheme]["id"],
+                                "text"  : response.responseData.schemes[scheme]["name"]
+                            });
+                        }
+
+                        return {
+                            results: schemesData
+                        }
+                    } else {
+                        return {
+                            results : []
+                        }
+                    }
+                }
+            },
+            minimumInputLength : 3,
+            afterInit: function() {
+                $('#{{componentId}}-{{sectionId}}-scheme_id').on('select2:select', function(e) {
+                    var schemeId = e.params.data.id;
+
+                    $('#{{componentId}}-{{sectionId}}-import').attr('disabled', false);
+                    $('#{{componentId}}-{{sectionId}}-import').off();
+                    $('#{{componentId}}-{{sectionId}}-import').click(function(e) {
+                        e.preventDefault();
+
+                        var thisButton = $(this);
+                        $(thisButton).addClass('disabled');
+                        $(thisButton).children('i').attr('hidden', false);
+
+                        var postData = { };
+                        postData[$('#security-token').attr('name')] = $('#security-token').val();
+                        postData['get_all_navs'] = true;
+                        postData['force'] = true;
+                        postData['scheme_id'] = schemeId;
+
+                        $.post('{{links.url("mf/extractdata/getAllNavData")}}', postData, function(response) {
+                            $(thisButton).removeClass('disabled');
+                            $(thisButton).children('i').attr('hidden', true);
+
+                            if (response.responseCode == 0) {
+                                paginatedPNotify('success', response.responseMessage);
+                            } else {
+                                paginatedPNotify('error', response.responseMessage);
+                            }
+
+                            if (response.tokenKey && response.token) {
+                                $("#security-token").attr("name", response.tokenKey);
+                                $("#security-token").val(response.token);
+                            }
+                        }, 'json');
+                    });
+                });
+            }
+        },
         '{{componentId}}-{{sectionId}}-downloadnav'                              : {
             afterInit : function() {
                 BazProgress.buildProgressBar($('#download-progress'), false, false, true);
