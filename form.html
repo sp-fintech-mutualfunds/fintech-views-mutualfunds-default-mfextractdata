@@ -32,10 +32,33 @@
                         'componentId'                    : componentId,
                         'sectionId'                      : sectionId,
                         'fieldId'                        : 'downloadnav',
-                        'fieldLabel'                     : 'Download and extract MF NAV Data',
+                        'fieldLabel'                     : 'NAV Data',
                         'fieldType'                      : 'checkbox',
                         'fieldHelp'                      : true,
                         'fieldHelpTooltipContent'        : 'Download and extract MF Data from github.',
+                        'fieldRequired'                  : false,
+                        'fieldDisabled'                  : false,
+                        'fieldCheckboxType'              : 'primary',
+                        'fieldCheckboxChecked'           : true,
+                        'fieldBazPostOnCreate'           : true,
+                        'fieldBazPostOnUpdate'           : true,
+                        'fieldBazJstreeSearch'           : true,
+                        'fieldBazScan'                   : true
+                    ]
+                )}}
+            </div>
+            <div class="col">
+                {{adminltetags.useTag('fields',
+                    [
+                        'component'                      : component,
+                        'componentName'                  : componentName,
+                        'componentId'                    : componentId,
+                        'sectionId'                      : sectionId,
+                        'fieldId'                        : 'recalculate_portfolios',
+                        'fieldLabel'                     : 'Recalculate portfolios',
+                        'fieldType'                      : 'checkbox',
+                        'fieldHelp'                      : true,
+                        'fieldHelpTooltipContent'        : 'Recalculate portfolios after downloading navs.',
                         'fieldRequired'                  : false,
                         'fieldDisabled'                  : false,
                         'fieldCheckboxType'              : 'primary',
@@ -246,7 +269,7 @@ if (!dataCollectionSection['{{componentId}}-{{sectionId}}-form']) {
 }
 
 function sync(thisButton, id = null) {
-    var url = "{{links.url('mf/extractdata/sync')}}";
+    var url = "{{links.url('mf/tools/extractdata/sync')}}";
     var postData = { };
 
     postData[$('#security-token').attr('name')] = $('#security-token').val();
@@ -366,7 +389,7 @@ dataCollectionSection =
                         postData['force'] = true;
                         postData['scheme_id'] = schemeId;
 
-                        $.post('{{links.url("mf/extractdata/getAllNavData")}}', postData, function(response) {
+                        $.post('{{links.url("mf/tools/extractdata/getAllNavData")}}', postData, function(response) {
                             $(thisButton).removeClass('disabled');
                             $(thisButton).children('i').attr('hidden', true);
 
@@ -394,12 +417,13 @@ dataCollectionSection =
                     // $(this).attr('disabled', true);
                     // $('#{{componentId}}-{{sectionId}}-download-extract').children().attr('hidden', false);
 
-                    var url = "{{links.url('mf/extractdata/process')}}";
+                    var url = "{{links.url('mf/tools/extractdata/process')}}";
                     var postData = { };
 
                     postData[$('#security-token').attr('name')] = $('#security-token').val();
                     postData['schemes'] = $('#{{componentId}}-{{sectionId}}-schemes')[0].checked;
                     postData['downloadnav'] = $('#{{componentId}}-{{sectionId}}-downloadnav')[0].checked;
+                    postData['recalculate_portfolios'] = $('#{{componentId}}-{{sectionId}}-recalculate_portfolios')[0].checked;
 
                     $.post(url, postData, function(response) {
                         if (response.responseCode == 0) {
@@ -423,6 +447,7 @@ dataCollectionSection =
                 });
             }
         },
+        '{{componentId}}-{{sectionId}}-recalculate_portfolios'                   : { },
         '{{componentId}}-{{sectionId}}-days'                                     : {
             afterInit: function() {
                 $('#{{componentId}}-{{sectionId}}-sync-gold').off();
